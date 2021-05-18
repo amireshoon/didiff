@@ -1,11 +1,28 @@
 import sys, os
+import pathlib
+
+def walker(path):
+    files_ = []
+    dirs_ = []
+    bytes_ = []
+
+    for root, dirs, files in os.walk(path):
+        files_.append(files)
+        dirs_.append(dirs)
+        for file in files:
+            if pathlib.PurePath(root).name == ".git":
+                continue
+            with open(os.path.join(root, file), "r", encoding="utf8") as auto:
+                    bytes_.append(auto.read())
+    yield files_
+    yield dirs_
+    yield bytes_
 
 def compare(first, second):
-    firstbytes = []
-    for root, dirs, files in os.walk(first):
-        for file in files:
-            with open(os.path.join(root, file), "r", encoding="utf8") as auto:
-                    firstbytes.append(auto.read(4096))
+    a,b,c = walker(first)
+    d,e,f = walker(second)
+    print(a,b)
+    
 
 def main():
     compare(sys.argv[1], sys.argv[2])
