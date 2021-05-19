@@ -2,6 +2,10 @@ import sys, os
 import pathlib
 
 def walker(path):
+    """
+    Walks through path folders and count files
+    folders and collect files byte
+    """
     files_ = []
     dirs_ = []
     bytes_ = []
@@ -19,6 +23,9 @@ def walker(path):
     yield bytes_
 
 def compare(first, second):
+    """
+    Compares two path and collect data
+    """
     a,b,c = walker(first)
     d,e,f = walker(second)
     print(a,b)
